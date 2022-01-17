@@ -77,6 +77,12 @@ post:build:uat:
   environment:
     name: UAT
 
+build:aws:
+  extends: 
+    - .build:default:image
+  environment:
+    name: AWS
+
 post:build:aws:
   needs: ['build:aws']
   extends: 
