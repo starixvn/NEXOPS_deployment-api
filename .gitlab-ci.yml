@@ -76,3 +76,10 @@ post:build:uat:
     - .post_build
   environment:
     name: UAT
+
+post:build:aws:
+  needs: ['build:aws']
+  extends: 
+    - .post_build
+  environment:
+    name: AWS
