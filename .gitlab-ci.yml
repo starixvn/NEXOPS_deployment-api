@@ -51,6 +51,19 @@ post:build:local:
   environment:
     name: LOCAL
 
+build:nexprod:
+  extends: 
+    - .build:default:image
+  environment:
+    name: NEXPROD
+
+post:build:nexprod:
+  needs: ['build:nexprod']
+  extends: 
+    - .post_build
+  environment:
+    name: NEXPROD
+
 build:sit:
   extends: 
     - .build:default:image
