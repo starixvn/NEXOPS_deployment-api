@@ -1,11 +1,15 @@
 version: '3.3'
 services:
+{% if version is defined and version != '' %}
+  deployment_api_{{env}}{{version}}:
+{% else %}
   deployment_api:
+{% endif %}
     image: registry.nexdev.net:5050/nexcel/nexops/deployment-api:{{env}}{{version}}-latest
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
-      replicas: 6
+      replicas: 3
       placement:
         constraints:
           - node.labels.NEXOPS_LOW_STORAGE == yes
