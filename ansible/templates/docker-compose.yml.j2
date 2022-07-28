@@ -3,7 +3,7 @@
 version: '3.3'
 services:
 {% if version is defined and version != '' %}
-  deployment_api_{{env}}{{version}}:
+  deployment_api_{{tag}}:
 {% else %}
   deployment_api:
 {% endif %}
