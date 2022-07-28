@@ -1,3 +1,5 @@
+{% set tag = env ~ '_' ~ version if version is defined and version != '' else env %}
+
 version: '3.3'
 services:
 {% if version is defined and version != '' %}
@@ -5,7 +7,7 @@ services:
 {% else %}
   deployment_api:
 {% endif %}
-    image: registry.nexdev.net:5050/nexcel/nexops/deployment-api:{{env}}{{version}}-latest
+    image: registry.nexdev.net:5050/nexcel/nexops/deployment-api:{{tag}}-latest
     deploy:
       mode: replicated
       endpoint_mode: dnsrr

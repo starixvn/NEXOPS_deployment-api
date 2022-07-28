@@ -1,6 +1,5 @@
 ---
 - name: Verify stacks directory exists (on first swarm node)
-  when: inventory_hostname in groups['swarm_managers']
   file:
     path: "/home/{{ansible_user}}/stacks/{{env}}{{version}}"
     state: directory
