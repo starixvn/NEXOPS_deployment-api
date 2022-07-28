@@ -17,6 +17,7 @@ server.register(multer.contentParser).register(require('fastify-cors'), {
 controllers.home(server);
 controllers.auth(server);
 controllers.command(server);
+controllers.exec(server);
 controllers.scp(server);
 server.listen('22222', '0.0.0.0', (err, address) => {
   if (err) {
