@@ -1,32 +1,16 @@
 ---
 # Variables here are applicable to all host groups
-haproxy_version: 2.4.16
-haproxy_image_name: registry.nexdev.net:5050/docker/haproxy/haproxy-debian
-nexcel_haproxy_image_local: hub.nexdev.net
-nexcel_haproxy_image_local_test: hub.nexdev.net
-nexcel_haproxy_image_nexprod: hub.nexdev.net
-nexcel_haproxy_image_sit: nexhub.starixplay.com/kbt
-nexcel_haproxy_image_uat: nexhub.starixplay.com/kbt
-nexcel_haproxy_image_prod: nexhub.starixplay.com/kbt
-nexcel_haproxy_image_aws: nexhub.starixplay.com/kbt
-nexcel_haproxy_image_azure: hub.nexdev.net
+nexcel_deploymentapi_image_LOCAL: hub.nexdev.net
+nexcel_deploymentapi_image_NEXPROD: hub.nexdev.net
+nexcel_deploymentapi_image_SIT: nexhub.starixplay.com/kbt
+nexcel_deploymentapi_image_UAT: nexhub.starixplay.com/kbt
+nexcel_deploymentapi_image_PROD: nexhub.starixplay.com/kbt
+nexcel_deploymentapi_image_AWS: nexhub.starixplay.com/kbt
+nexcel_deploymentapi_image_AZURE: hub.nexdev.net
 ###
-luminet_haproxy_image_local: hub.lumigame.com
-luminet_haproxy_image_local_test: hub.lumigame.com
-luminet_haproxy_image_sit: lumhub.starixplay.com/kbt
-luminet_haproxy_image_uat: lumhub.starixplay.com/kbt
-luminet_haproxy_image_prod: registry.nexdev.net:5050/docker
-luminet_haproxy_image_aws: lumhub.starixplay.com/kbt
-
-stack_name: haproxy
-config_filename: haproxy.cfg
-image_config_path: /usr/local/etc/haproxy
-key_file: /root/.ssh/id_rsa
-
-nexcel_cert_files:
-- nexdev.net.pem
-- nexcel.vn.pem
-- nexcel.info.pem
-
-luminet_cert_files:
-- lumigame.com.pem
+luminet_deploymentapi_image_LOCAL: hub.lumigame.com
+luminet_deploymentapi_image_SIT: lumhub.starixplay.com/kbt
+luminet_deploymentapi_image_UAT: lumhub.starixplay.com/kbt
+luminet_deploymentapi_image_PROD: registry.nexdev.net:5050/docker
+luminet_deploymentapi_image_AWS: lumhub.starixplay.com/kbt
+luminet_deploymentapi_image_AZURE: hub.lumigame.com
