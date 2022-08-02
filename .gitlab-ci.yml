@@ -17,7 +17,7 @@ include:
 
 variables:
   PROJECT_ROOT_PATH: .
-  DOCKER_IMAGE_PATH: nexcel/nexops/deployment-api
+  DOCKER_IMAGE_PATH: nexops/deployment-api
   DOCKER_FILE_PATH: ./
   DOCKER_FILE_NAME: Dockerfile
   CONFIG_FILE_PATH: ./src
@@ -115,3 +115,16 @@ post:build:aws:
     - .post_build
   environment:
     name: AWS
+
+build:azure:
+  extends: 
+    - .build:default:image
+  environment:
+    name: AZURE
+
+post:build:azure:
+  needs: ['build:aws']
+  extends: 
+    - .post_build
+  environment:
+    name: AZURE
