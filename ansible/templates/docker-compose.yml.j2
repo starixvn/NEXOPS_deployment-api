@@ -7,7 +7,7 @@ services:
 {% else %}
   deployment_api:
 {% endif %}
-    image: registry.nexdev.net:5050/nexcel/nexops/deployment-api:{{tag}}-latest
+    image: {{ lookup('vars', org + '_haproxy_image_' + env)}}/nexops/deployment-api:{{tag}}-latest
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
