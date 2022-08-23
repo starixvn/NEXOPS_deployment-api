@@ -128,3 +128,16 @@ post:build:azure:
     - .post_build
   environment:
     name: AZURE
+
+build:gc:
+  extends: 
+    - .build:default:image
+  environment:
+    name: GC
+
+post:build:gc:
+  needs: ['build:aws']
+  extends: 
+    - .post_build
+  environment:
+    name: GC

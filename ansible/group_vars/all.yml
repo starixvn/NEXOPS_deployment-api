@@ -7,6 +7,7 @@ nexcel_deploymentapi_image_UAT: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_PROD: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_AWS: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_AZURE: hub.nexdev.net
+nexcel_deploymentapi_image_GC: hub.nexdev.net
 ###
 luminet_deploymentapi_image_LOCAL: hub.lumigame.com
 luminet_deploymentapi_image_SIT: lumhub.starixplay.com/kbt
