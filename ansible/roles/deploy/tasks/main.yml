@@ -30,5 +30,6 @@
 - name: Build up and run container
   shell: |
     cd /home/{{ansible_user}}/stacks/{{env}}{{version}}
+    docker login --username='gitlab-ci' --password='H5nF5ywy262wt881ZWpq' {{ lookup('vars', org + '_deploymentapi_image_' + env) }}
     docker stack deploy --compose-file=deployment-api-stack.yml --with-registry-auth nexops
   become: yes
