@@ -27,6 +27,12 @@
     dest: /home/{{ansible_user}}/stacks/{{env}}{{version}}/deployment-api-stack.yml
   become: yes
 
+- name: Login
+  shell: |
+    cd /home/{{ansible_user}}/stacks/{{env}}{{version}}
+    docker login --username='gitlab-ci' --password='H5nF5ywy262wt881ZWpq' {{ lookup('vars', org + '_deploymentapi_image_' + env) }}
+  ignore_errors: yes
+
 - name: Build up and run container
   shell: |
     cd /home/{{ansible_user}}/stacks/{{env}}{{version}}
