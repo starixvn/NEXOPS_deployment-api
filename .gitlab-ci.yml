@@ -116,18 +116,18 @@ post:build:aws:
   environment:
     name: AWS
 
-build:azure:
+build:aws2:
   extends: 
     - .build:default:image
   environment:
-    name: AZURE
+    name: AWS2
 
-post:build:azure:
+post:build:aws2:
   needs: ['build:aws']
   extends: 
     - .post_build
   environment:
-    name: AZURE
+    name: AWS2
 
 build:gc:
   extends: 
@@ -135,9 +135,28 @@ build:gc:
   environment:
     name: GC
 
-post:build:gc:
-  needs: ['build:aws']
+build:prod_alpha:
+  extends: 
+    - .build:default:image
+  environment:
+    name: PROD_ALPHA
+
+post:build:prod_alpha:
+  needs: ['build:prod_alpha']
   extends: 
     - .post_build
   environment:
-    name: GC
+    name: PROD_ALPHA
+
+build:prod_fps:
+  extends: 
+    - .build:default:image
+  environment:
+    name: PROD_FPS
+
+post:build:prod_fps:
+  needs: ['build:prod_fps']
+  extends: 
+    - .post_build
+  environment:
+    name: PROD_FPS
