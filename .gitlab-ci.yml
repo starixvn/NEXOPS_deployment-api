@@ -116,18 +116,18 @@ post:build:aws:
   environment:
     name: AWS
 
-build:aws2:
+build:nexaws:
   extends: 
     - .build:default:image
   environment:
-    name: AWS2
+    name: NEXAWS
 
-post:build:aws2:
-  needs: ['build:aws']
+post:build:nexaws:
+  needs: ['build:nexaws']
   extends: 
     - .post_build
   environment:
-    name: AWS2
+    name: NEXAWS
 
 build:gc:
   extends: 
