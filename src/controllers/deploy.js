@@ -60,7 +60,7 @@ module.exports = (server) => {
   };
 
   const removeConfig = (configs) => {
-    const params= configs.replace("\n"," ");
+    const params = configs?.replace("\r\n", " ").replace("\n", " ");
     const commands = `docker config rm ${params}`;
 
     runRemoteCommands(commands, req, res);
