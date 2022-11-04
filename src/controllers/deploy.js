@@ -6,7 +6,7 @@ const Sentry = require("@sentry/node");
 module.exports = (server) => {
   const logError = (request, response, error) => {
     Sentry.captureMessage(
-      `**[${request.body.env}|${request.body.host}|${request.body.jobid}]** ${error}`,
+      `**[${request.body.env}|${request.body.host}|${request.body.pipelineId}]** ${error}`,
       "error"
     );
     response.status(500).send(error);
@@ -90,8 +90,17 @@ module.exports = (server) => {
   server.post("/prepareFolderPermission", (request, response) => {
     const user = replaceSpaces(request.body.user),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
-      env = replaceSpaces(request.body.deployEnvironment);
+      env = replaceSpaces(request.body.env);
     const commands = `sudo mkdir -p ${workingDirectory}/${env}/configs && sudo chown ${user}:${user} -R ${workingDirectory} && sudo chmod 755 -R ${workingDirectory}`;
+
+    runRemoteCommands(commands, request, response);
+  });
+
+  server.post("/deploySwarmService", (request, response) => {
+    const stack = replaceSpaces(request.body.stack),
+      workingDirectory = replaceSpaces(request.body.workingDirectory),
+      env = replaceSpaces(request.body.env);
+    const commands = `cd ${workingDirectory}/${env} && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth ${stack}`;
 
     runRemoteCommands(commands, request, response);
   });
