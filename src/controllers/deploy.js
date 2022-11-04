@@ -86,4 +86,13 @@ module.exports = (server) => {
 
     runRemoteCommands(commands, request, response);
   });
+
+  server.post("/prepareFolderPermission", (request, response) => {
+    const user = replaceSpaces(request.body.user),
+      workingDirectory = replaceSpaces(request.body.workingDirectory),
+      env = replaceSpaces(request.body.deployEnvironment);
+    const commands = `sudo mkdir -p ${workingDirectory}/${env}/configs && sudo chown ${user}:${user} -R ${workingDirectory} && sudo chmod 755 -R ${workingDirectory}`;
+
+    runRemoteCommands(commands, request, response);
+  });
 };
