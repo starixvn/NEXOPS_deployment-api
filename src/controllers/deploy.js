@@ -14,7 +14,8 @@ module.exports = (server) => {
 
   const handleResult = (request, response, result, callback) => {
     if (result.stderr) {
-      if (result.stderr.includes("WARNING")
+      if ((result.stderr.includes("WARNING")
+        && !result.stderr.includes("Error"))
         || result.stderr.includes("Error: No such")) {
         response.status(200).send(result.stderr);
         return;
@@ -66,12 +67,23 @@ module.exports = (server) => {
     runRemoteCommands(commands, request, response);
   };
 
-  server.post("/config/remove", (request, response) => {
-    const filter = request.body.configName?.replace(" ", "");
+  const replaceSpaces = (content) => content?.replace(" ", "");
+
+  server.post("/removeSwarmConfigs", (request, response) => {
+    const filter = replaceSpaces(request.body.configName);
     const commands = `docker config ls --format {{.Name}} | grep -e ${filter}*`;
 
     runRemoteCommands(commands, request, response, (result) => {
       removeConfig(result, request, response);
     });
+  });
+
+  server.post("/loginRegistry", (request, response) => {
+    const user = replaceSpaces(request.body.registryUser),
+      password = replaceSpaces(request.body.registryPassword),
+      url = replaceSpaces(request.body.registryUrl);
+    const commands = `docker login -u ${user} -p ${password} ${url}`;
+
+    runRemoteCommands(commands, request, response);
   });
 };
