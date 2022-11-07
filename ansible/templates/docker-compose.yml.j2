@@ -7,7 +7,7 @@ services:
 {% else %}
   deployment_api:
 {% endif %}
-    image: {{ lookup('vars', org + '_deploymentapi_image_' + env) }}/nexops/deployment-api:{{env}}-latest
+    image: {{ lookup('vars', org + '_deploymentapi_image_' + env) }}/nexops/deployment-api:{{tag}}-latest
     deploy:
       mode: replicated
       endpoint_mode: dnsrr
