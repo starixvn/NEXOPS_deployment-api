@@ -2,6 +2,8 @@ const { NodeSSH } = require("node-ssh");
 const ssh = new NodeSSH();
 const path = require("path");
 const Sentry = require("@sentry/node");
+const multer = require('fastify-multer');
+const upload = multer();
 
 module.exports = (server) => {
   const logError = (request, response, error) => {
@@ -69,7 +71,7 @@ module.exports = (server) => {
 
   const replaceSpaces = (content) => content?.replace(" ", "");
 
-  server.post("/removeSwarmConfigs", (request, response) => {
+  server.post("/removeSwarmConfigs", { preHandler: upload.none() }, (request, response) => {
     const filter = replaceSpaces(request.body.configName);
     const commands = `docker config ls --format {{.Name}} | grep -e ${filter}*`;
 
@@ -78,7 +80,7 @@ module.exports = (server) => {
     });
   });
 
-  server.post("/loginRegistry", (request, response) => {
+  server.post("/loginRegistry", { preHandler: upload.none() }, (request, response) => {
     const user = replaceSpaces(request.body.registryUser),
       password = replaceSpaces(request.body.registryPassword),
       url = replaceSpaces(request.body.registryUrl);
@@ -87,7 +89,7 @@ module.exports = (server) => {
     runRemoteCommands(commands, request, response);
   });
 
-  server.post("/prepareFolderPermission", (request, response) => {
+  server.post("/prepareFolderPermission", { preHandler: upload.none() }, (request, response) => {
     const user = replaceSpaces(request.body.user),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env);
@@ -96,7 +98,7 @@ module.exports = (server) => {
     runRemoteCommands(commands, request, response);
   });
 
-  server.post("/deploySwarmService", (request, response) => {
+  server.post("/deploySwarmService", { preHandler: upload.none() }, (request, response) => {
     const stack = replaceSpaces(request.body.stack),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env);
