@@ -5,23 +5,6 @@
     state: directory
   become: yes
 
-- name: Create directory
-  file:
-    path: "{{gluster_path}}/deployment-api"
-    mode: "0755"
-    state: directory
-  become: yes
-
-# - name: Create network
-#   docker_network:
-#     name: "{{swarm_network_nexops}}"
-#     driver: "overlay"
-#     ipam_config:
-#       - subnet: 192.168.0.0/24
-#     attachable: true
-#   ignore_errors: yes
-#   become: yes
-
 - name: Copy docker-compose file
   template:
     src: "templates/docker-compose.yml.j2"
