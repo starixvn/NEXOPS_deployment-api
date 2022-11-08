@@ -17,9 +17,6 @@ include:
   - project: 'ci/common-ci'
     ref: master
     file: 'docker/base/build-docker-image.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: master
-    file: 'docker/base/post-build-docker-image.gitlab-ci.yml'
 
 variables:
   PROJECT_ROOT_PATH: .
@@ -90,13 +87,6 @@ build:nexprod:
   environment:
     name: NEXPROD
 
-post:build:nexprod:
-  needs: ['build:nexprod']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: NEXPROD
-
 build:sit:
   extends: 
     - .build:default:image
@@ -142,13 +132,6 @@ build:nexaws:
   environment:
     name: NEXAWS
 
-post:build:nexaws:
-  needs: ['build:nexaws']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: NEXAWS
-
 build:gc:
   extends: 
     - .build:default:image
@@ -161,22 +144,8 @@ build:prod_alpha:
   environment:
     name: PROD_ALPHA
 
-post:build:prod_alpha:
-  needs: ['build:prod_alpha']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: PROD_ALPHA
-
 build:prod_fps:
   extends: 
     - .build:default:image
-  environment:
-    name: PROD_FPS
-
-post:build:prod_fps:
-  needs: ['build:prod_fps']
-  extends: 
-    - .custom_post_build
   environment:
     name: PROD_FPS
