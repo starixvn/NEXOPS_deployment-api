@@ -50,11 +50,8 @@ before_script:
 
 .custom_post_build:
   stage: post-build
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
-    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest 
-      || docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+  script:   
+    - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
     - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest $CI_REGISTRY_IMAGE_LUMINET:$DEPLOY_ENV-latest
     - docker push $CI_REGISTRY_IMAGE_LUMINET:$DEPLOY_ENV-latest
   tags:
