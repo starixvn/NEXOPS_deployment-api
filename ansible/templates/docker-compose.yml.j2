@@ -11,7 +11,7 @@ services:
 {% if public_port is defined and public_port != '' %}
     ports:
       - target: 22222
-        published: public_port
+        published: {{public_port}}
         protocol: tcp
         mode: host
 {% endif %}
