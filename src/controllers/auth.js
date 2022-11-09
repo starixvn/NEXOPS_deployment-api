@@ -1,4 +1,4 @@
-const authTokens = ['64E97A7A53B4E48B6631DFF184CC6', '6fEU6E8XbPoXBzTEGsefpfgCFgvIUSyM'];
+const authTokens = ['6fEU6E8XbPoXBzTEGsefpfgCFgvIUSyM'];
 
 module.exports = (server) => {
   server.addHook('onRequest', (request, reply, done) => {

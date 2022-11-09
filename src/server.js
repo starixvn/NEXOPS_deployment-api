@@ -16,7 +16,6 @@ server.register(multer.contentParser).register(require('fastify-cors'), {
 
 controllers.home(server);
 controllers.auth(server);
-controllers.command(server);
 controllers.scp(server);
 controllers.deploy(server);
 
