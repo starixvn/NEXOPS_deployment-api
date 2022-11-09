@@ -8,10 +8,14 @@ const upload = multer({ storage: storage });
 const Sentry = require('@sentry/node');
 
 module.exports = (server) => {
+  const randomString = () => {
+    return (Math.random() + 1).toString(36).substring(2);
+  };
+
   server.post('/scp', { preHandler: upload.single('file') }, async (req, res) => {
     const file = req.file;
     const fileName = file.originalname;
-    const folderPath = mkDirByPathSync('./temp/' + Math.floor(new Date().getTime() / 1000), true);
+    const folderPath = mkDirByPathSync('./temp/' + randomString(), true);
     fs.writeFileSync(`${folderPath}/${fileName}`, file.buffer);
 
     ssh
