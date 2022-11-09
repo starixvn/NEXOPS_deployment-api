@@ -137,15 +137,3 @@ build:gc:
     - .build:default:image
   environment:
     name: GC
-
-build:prod_alpha:
-  extends: 
-    - .build:default:image
-  environment:
-    name: PROD_ALPHA
-
-build:prod_fps:
-  extends: 
-    - .build:default:image
-  environment:
-    name: PROD_FPS
