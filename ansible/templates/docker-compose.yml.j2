@@ -13,7 +13,7 @@ services:
       - target: 22222
         published: {{public_port}}
         protocol: tcp
-        mode: host
+        #mode: host
 {% endif %}
     deploy:
       mode: replicated
