@@ -17,7 +17,7 @@ services:
 {% endif %}
     deploy:
       mode: replicated
-      endpoint_mode: dnsrr
+      #endpoint_mode: dnsrr
       replicas: {{replicas | default("3")}}
       placement:
         constraints:
