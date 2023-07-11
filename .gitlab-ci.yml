@@ -1,4 +1,4 @@
-image: registry.nexdev.net:5050/docker/docker-engine/docker:19.03.14
+image: hub.nexdev.net/base/docker-engine/docker:19.03.14
 
 workflow:
   rules:
