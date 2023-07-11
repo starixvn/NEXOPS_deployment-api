@@ -1,4 +1,5 @@
-FROM hub.nexdev.net/base/node:14.15.1-slim
+FROM hub.nexdev.net/base/node:14.15.1-buster-slim
+#FROM hub.nexdev.net/base/node:14.15.1-slim
 #registry.nexdev.net:5050/docker/node:14.15.1-slim
 
 USER root
