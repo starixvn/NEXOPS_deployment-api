@@ -137,3 +137,16 @@ build:gc:
     - .build:default:image
   environment:
     name: GC
+
+build:prod:
+  extends: 
+    - .build:default:image
+  environment:
+    name: PROD
+
+post:build:prod:
+  needs: ['build:prod']
+  extends: 
+    - .custom_post_build
+  environment:
+    name: PROD
