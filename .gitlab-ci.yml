@@ -72,7 +72,7 @@ build:awslocal:
   extends: 
     - .build:default:image
   environment:
-    name: LOCAL
+    name: AWSLOCAL
 
 post:build:awslocal:
   needs: ['build:awslocal']
