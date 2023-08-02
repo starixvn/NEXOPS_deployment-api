@@ -68,6 +68,19 @@ post:build:local:
   environment:
     name: LOCAL
 
+build:awslocal:
+  extends: 
+    - .build:default:image
+  environment:
+    name: LOCAL
+
+post:build:awslocal:
+  needs: ['build:awslocal']
+  extends: 
+    - .custom_post_build
+  environment:
+    name: AWSLOCAL
+
 build:local1:
   extends: 
     - .build:default:image
