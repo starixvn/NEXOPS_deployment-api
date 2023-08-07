@@ -126,6 +126,19 @@ post:build:uat:
   environment:
     name: UAT
 
+build:awsuat:
+  extends: 
+    - .build:default:image
+  environment:
+    name: AWSUAT
+
+post:build:awsuat:
+  needs: ['build:awsuat']
+  extends: 
+    - .custom_post_build
+  environment:
+    name: AWSUAT
+
 build:aws:
   extends: 
     - .build:default:image
