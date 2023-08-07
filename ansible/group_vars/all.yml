@@ -17,4 +17,4 @@ luminet_deploymentapi_image_UAT: lumhub.starixplay.com/kbt
 luminet_deploymentapi_image_PROD: lumhub.starixplay.com/kbt
 luminet_deploymentapi_image_AWS: hub.lumigame.com
 luminet_deploymentapi_image_AWSLOCAL: hub.lumigame.com
-luminet_deploymentapi_image_AWSUAT: lumhub.starixplay.com/kbt
+luminet_deploymentapi_image_AWSUAT: hub.lumigame.com
