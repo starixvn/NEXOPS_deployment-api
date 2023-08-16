@@ -7,10 +7,9 @@ const upload = multer();
 
 module.exports = (server) => {
   const logError = (request, response, error) => {
-    Sentry.captureMessage(
-      `**[${request.body.env}|${request.body.host}|${request.body.pipelineId}]** ${error}`,
-      "error"
-    );
+    const errorMessage = `**[${request.body.env}|${request.body.host}|${request.body.pipelineId}]** ${error}`;
+    Sentry.captureMessage(errorMessage, "error");
+    console.log(errorMessage);
     response.status(500).send(error);
   };
 
@@ -63,13 +62,23 @@ module.exports = (server) => {
   };
 
   const removeConfig = (configs, request, response) => {
-    const params = configs?.replace("\r\n", " ").replace("\n", " ");
+    const params = configs?.replace(/\r\n/g, " ").replace(/\n/g, " ");
     const commands = `docker config rm ${params}`;
 
     runRemoteCommands(commands, request, response);
   };
 
-  const replaceSpaces = (content) => content?.replace(" ", "");
+  const replaceSpaces = (content) => content?.replace(/\s/g, "");
+
+  const normalize = (content) => {
+    let result = content;
+
+    if (content) {
+      result = replaceSpaces(content).replace(/_/g, "-").toLowerCase();
+    }
+
+    return result;
+  }
 
   server.post("/removeSwarmConfigs", { preHandler: upload.none() }, (request, response) => {
     const filter = replaceSpaces(request.body.configName);
@@ -103,6 +112,35 @@ module.exports = (server) => {
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env);
     const commands = `cd ${workingDirectory}/${env} && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth ${stack}`;
+
+    runRemoteCommands(commands, request, response);
+  });
+
+  server.post("/loginChartRegistry", { preHandler: upload.none() }, (request, response) => {
+    const user = replaceSpaces(request.body.registryUser),
+      password = replaceSpaces(request.body.registryPassword),
+      url = replaceSpaces(request.body.registryUrl);
+    const commands = `helm registry login -u ${user} -p ${password} ${url}`;
+
+    runRemoteCommands(commands, request, response);
+  });
+
+  server.post("/deployKubernetes", { preHandler: upload.none() }, (request, response) => {
+    const releaseName = normalize(request.body.releaseName),
+      workingDirectory = replaceSpaces(request.body.workingDirectory),
+      env = replaceSpaces(request.body.env),
+      chartUrl = replaceSpaces(request.body.chartUrl),
+      configFileName = replaceSpaces(request.body.configFileName),
+      spFileName = replaceSpaces(request.body.spFileName);
+    let commands = `cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartUrl} -f k8sdeployments-values.yaml`;
+
+    if (configFileName) {
+      commands = `${commands} --set-file "configFile.content=${configFileName}"`;
+    }
+
+    if (spFileName) {
+      commands = `${commands} --set-file "spFile.content=${spFileName}"`;
+    }
 
     runRemoteCommands(commands, request, response);
   });
