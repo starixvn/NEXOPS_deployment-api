@@ -15,10 +15,10 @@ module.exports = (server) => {
 
   const handleResult = (request, response, result, callback) => {
     if (result.stderr) {
-      if ((result.stderr.includes("WARNING")
-        && !result.stderr.includes("Error"))
-        || result.stderr.includes("Error: No such")) {
-        response.status(200).send(result.stderr);
+      if ((result.stderr.includes("WARNING") && !result.stderr.includes("Error"))
+        || result.stderr.includes("Error: No such")
+        || result.stderr.includes("Pulled")) {
+        response.status(200).send(`${result.stderr}\n${result.stdout}`);
         return;
       }
 
