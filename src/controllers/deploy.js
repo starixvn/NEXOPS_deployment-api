@@ -17,7 +17,7 @@ module.exports = (server) => {
     if (result.stderr) {
       if ((result.stderr.includes("WARNING") && !result.stderr.includes("Error"))
         || result.stderr.includes("Error: No such")
-        || result.stderr.includes("Pulled")) {
+        || (result.stderr.includes("Pulled") && !result.stderr.includes("Error"))) {
         response.status(200).send(`${result.stderr}\n${result.stdout}`);
         return;
       }
