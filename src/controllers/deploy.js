@@ -129,10 +129,15 @@ module.exports = (server) => {
     const releaseName = normalize(request.body.releaseName),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env),
-      chartUrl = replaceSpaces(request.body.chartUrl),
+      chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
+      user = replaceSpaces(request.body.registryUser),
+      password = replaceSpaces(request.body.registryPassword),
       configFileName = replaceSpaces(request.body.configFileName),
-      spFileName = replaceSpaces(request.body.spFileName);
-    let commands = `cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartUrl} -f k8sdeployments-values.yaml`;
+      spFileName = replaceSpaces(request.body.spFileName),
+      historyMax = "--history-max 5";
+
+    let commands = `helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
+    commands = `${commands} && cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -f k8sdeployments-values.yaml`;
 
     if (configFileName) {
       commands = `${commands} --set-file "configFile.content=${configFileName}"`;
