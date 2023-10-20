@@ -1,8 +1,10 @@
-FROM hub.nexdev.net/base/node:14.15.1-buster-slim
-#FROM hub.nexdev.net/base/node:14.15.1-slim
-#registry.nexdev.net:5050/docker/node:14.15.1-slim
+FROM hub.nexdev.net/base/node:18.1-buster-slim
 
 USER root
+
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+    && chmod +x get_helm.sh && ./get_helm.sh
+
 ENV TZ="America/New_York"
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
