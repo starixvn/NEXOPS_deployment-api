@@ -1,8 +1,8 @@
-image: hub.nexdev.net/base/docker-engine/docker:19.03.14
+image: hub.nexdev.net/base/docker:24.0.4-bash-jq-jinja
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "k8s"
       when: always
     - when: never
 
@@ -29,11 +29,6 @@ variables:
   DOCKER_REG_LUMINET_URL: hub.lumigame.com
 
 before_script:
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - echo -e "${SSH_PRIVATE_KEY_1}\n${SSH_PRIVATE_KEY_2}\n${SSH_PRIVATE_KEY_3}" | ssh-add -
   - export DEPLOY_ENV=$CI_ENVIRONMENT_NAME;
   - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
   - export CI_REGISTRY_IMAGE_LUMINET=$DOCKER_REG_LUMINET_URL/$DOCKER_IMAGE_PATH
@@ -59,133 +54,11 @@ build:local:
   extends: 
     - .build:default:image
   environment:
-    name: LOCAL
+    name: LOCAL-k8s
 
 post:build:local:
   needs: ['build:local']
   extends: 
     - .custom_post_build
   environment:
-    name: LOCAL
-
-build:awslocal:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWSLOCAL
-
-post:build:awslocal:
-  needs: ['build:awslocal']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSLOCAL
-
-build:local1:
-  extends: 
-    - .build:default:image
-  environment:
-    name: LOCAL_1
-
-post:build:local1:
-  needs: ['build:local1']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: LOCAL_1
-
-build:nexprod:
-  extends: 
-    - .build:default:image
-  environment:
-    name: NEXPROD
-
-build:sit:
-  extends: 
-    - .build:default:image
-  environment:
-    name: SIT
-
-post:build:sit:
-  needs: ['build:sit']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: SIT
-
-build:uat:
-  extends: 
-    - .build:default:image
-  environment:
-    name: UAT
-
-post:build:uat:
-  needs: ['build:uat']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: UAT
-
-build:awsuat:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWSUAT
-
-post:build:awsuat:
-  needs: ['build:awsuat']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSUAT
-
-build:aws:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWS
-
-post:build:aws:
-  needs: ['build:aws']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWS
-
-build:nexaws:
-  extends: 
-    - .build:default:image
-  environment:
-    name: NEXAWS
-
-build:gc:
-  extends: 
-    - .build:default:image
-  environment:
-    name: GC
-
-build:prod:
-  extends: 
-    - .build:default:image
-  environment:
-    name: PROD
-
-post:build:prod:
-  needs: ['build:prod']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: PROD
-
-build:awsprod:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWSPROD
-
-post:build:awsprod:
-  needs: ['build:awsprod']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSPROD
+    name: LOCAL-k8s
