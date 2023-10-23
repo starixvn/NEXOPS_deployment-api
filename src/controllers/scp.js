@@ -1,6 +1,4 @@
-const { NodeSSH } = require('node-ssh');
 const fs = require('fs');
-const ssh = new NodeSSH();
 const path = require('path');
 const multer = require('fastify-multer');
 const storage = multer.memoryStorage();
@@ -8,10 +6,6 @@ const upload = multer({ storage: storage });
 const Sentry = require('@sentry/node');
 
 module.exports = (server) => {
-  const randomString = () => {
-    return (Math.random() + 1).toString(36).substring(2);
-  };
-
   server.post('/scp', { preHandler: upload.single('file') }, async (req, res) => {
     const sep = path.sep;
     const file = req.file;
