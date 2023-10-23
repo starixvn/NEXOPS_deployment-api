@@ -13,34 +13,21 @@ module.exports = (server) => {
   };
 
   server.post('/scp', { preHandler: upload.single('file') }, async (req, res) => {
+    const sep = path.sep;
     const file = req.file;
-    const fileName = file.originalname;
-    const folderPath = mkDirByPathSync('./temp/' + randomString(), true);
-    fs.writeFileSync(`${folderPath}/${fileName}`, file.buffer);
 
-    ssh
-      .connect({
-        host: req.body.host,
-        port: req.body.port ?? 22,
-        username: req.body.user ?? root,
-        privateKey: path.join(__dirname, '../id_rsa'),
-      })
-      .then(() => {
-        ssh
-          .putFile(`${folderPath}/${fileName}`, `${req.body.remotePath}`)
-          .then(() => {
-            fs.rmdirSync(folderPath, { recursive: true });
-            res.status(200).send('success');
-          })
-          .catch((error) => {
-            Sentry.captureMessage(`**[${req.body.env}|${req.body.host}|${req.body.pipelineId}]** ${error}`, 'error');
-            res.status(500).send(error);
-          });
-      })
-      .catch((error) => {
-        Sentry.captureMessage(`**[${req.body.env}|${req.body.host}|${req.body.pipelineId}]** ${error}`, 'error');
-        res.status(500).send(error);
-      });
+    try {
+      const fileName = path.basename(req.body.remotePath);
+      const folderPath = mkDirByPathSync(path.dirname(req.body.remotePath), true);
+
+      fs.writeFileSync(`${folderPath}${sep}${fileName}`, file.buffer);
+
+      res.status(200).send('success');
+    } catch (error) {
+      Sentry.captureMessage(`**[${req.body.env}|${req.body.host}|${req.body.pipelineId}]** ${error}`, 'error');
+
+      res.status(500).send(error);
+    }
   });
 
   const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {

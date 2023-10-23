@@ -1,5 +1,6 @@
 const { NodeSSH } = require("node-ssh");
 const ssh = new NodeSSH();
+const { exec } = require("child_process");
 const path = require("path");
 const Sentry = require("@sentry/node");
 const multer = require('fastify-multer');
@@ -59,6 +60,16 @@ module.exports = (server) => {
       .catch((error) => {
         logError(request, response, error);
       });
+  };
+
+  const execCommands = (commands, request, response, callback) => {
+    exec(commands, (error, stdout, stderr) => {
+      if (error) {
+        logError(request, response, error);
+      } else {
+        handleResult(request, response, { stdout, stderr }, callback);
+      }
+    });
   };
 
   const removeConfig = (configs, request, response) => {
@@ -122,12 +133,12 @@ module.exports = (server) => {
       url = replaceSpaces(request.body.registryUrl);
     const commands = `helm registry login -u ${user} -p ${password} ${url}`;
 
-    runRemoteCommands(commands, request, response);
+    execCommands(commands, request, response);
   });
 
   server.post("/deployKubernetes", { preHandler: upload.none() }, (request, response) => {
     const releaseName = normalize(request.body.releaseName),
-      workingDirectory = replaceSpaces(request.body.workingDirectory),
+      workingDirectory = replaceSpaces(`${__dirname}${path.sep}${request.body.workingDirectory}`),
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
       user = replaceSpaces(request.body.registryUser),
@@ -147,6 +158,6 @@ module.exports = (server) => {
       commands = `${commands} --set-file "spFile.content=${spFileName}"`;
     }
 
-    runRemoteCommands(commands, request, response);
+    execCommands(commands, request, response);
   });
 };
