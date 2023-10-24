@@ -1,12 +1,12 @@
 const { exec } = require("child_process");
-const path = require("path");
 const Sentry = require("@sentry/node");
 const multer = require('fastify-multer');
+const { URL } = require("url");
 const upload = multer();
 
 module.exports = (server) => {
   const logError = (request, response, error) => {
-    const errorMessage = `**[${request.body.env}|${request.body.host}|${request.body.pipelineId}]** ${error}`;
+    const errorMessage = `**[eks/k8s][${request.body.env}|${request.body.pipelineId}]** ${error}`;
     Sentry.captureMessage(errorMessage, "error");
     console.log(errorMessage);
     response.status(500).send(error);
@@ -53,27 +53,20 @@ module.exports = (server) => {
     });
   };
 
-  server.post("/loginChartRegistry", { preHandler: upload.none() }, (request, response) => {
-    const user = replaceSpaces(request.body.registryUser),
-      password = replaceSpaces(request.body.registryPassword),
-      url = replaceSpaces(request.body.registryUrl);
-    const commands = `helm registry login -u ${user} -p ${password} ${url}`;
-
-    execCommands(commands, request, response);
-  });
-
   server.post("/deployKubernetes", { preHandler: upload.none() }, (request, response) => {
     const releaseName = normalize(request.body.releaseName),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
+      registryUrl = new URL(chartBaseUrl).host,
       user = replaceSpaces(request.body.registryUser),
       password = replaceSpaces(request.body.registryPassword),
       configFileName = replaceSpaces(request.body.configFileName),
       spFileName = replaceSpaces(request.body.spFileName),
       historyMax = "--history-max 5";
 
-    let commands = `helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
+    let commands = `helm registry login -u ${user} -p ${password} ${registryUrl}`;
+    commands = `${commands} && helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
     commands = `${commands} && cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -f k8sdeployments-values.yaml`;
 
     if (configFileName) {
