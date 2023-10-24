@@ -4,7 +4,7 @@
 
 # override values of dependency k8sdeployments
 k8sdeployments:
-  replicaCount: 2
+  replicaCount: 1
 
   image:
     name: ""

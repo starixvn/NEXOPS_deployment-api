@@ -7,7 +7,7 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "hub.lumigame.com/nexops/deployment-api:eks_LOCAL-latest"
+    name: "hub.lumigame.com/nexops/deployment-api:EKSLOCAL-latest"
     pullSecretName: regcred-secret
 
   ingress:

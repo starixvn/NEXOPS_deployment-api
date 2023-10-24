@@ -1,0 +1,15 @@
+image: hub.nexdev.net/base/docker:24.0.4-bash-jq-jinja
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "k8s"
+      when: always
+    - when: never
+
+stages:
+  - build
+  - post-build
+  - deploy
+
+variables:  
+  EKS_LOCAL: "EKSLOCAL"
