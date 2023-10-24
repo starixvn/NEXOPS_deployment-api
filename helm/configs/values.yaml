@@ -13,7 +13,7 @@ k8sdeployments:
   ingress:
     enabled: true
     hosts:
-      - host: deployapi-k8s.lumigame.com
+      - host: deployapi-eks.lumigame.com
         paths:
           - path: /
             pathType: Prefix

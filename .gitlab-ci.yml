@@ -1,10 +1,5 @@
 image: hub.nexdev.net/base/docker:24.0.4-bash-jq-jinja
 
-variables:
-  APP_NAME: "deployapi"
-  KUBERNETES_NAMESPACE: "default"
-  EKS_LOCAL: "eks_LOCAL"
-
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "k8s"
@@ -33,6 +28,9 @@ variables:
   CONFIG_FILE_NAME: configs
   CONFIG_FILE_EXTENSION: js
   DOCKER_REG_LUMINET_URL: hub.lumigame.com
+  APP_NAME: "deployapi"
+  KUBERNETES_NAMESPACE: "default"
+  EKS_LOCAL: "eks_LOCAL"
 
 before_script:
   - export DEPLOY_ENV=$CI_ENVIRONMENT_NAME;
@@ -55,19 +53,6 @@ before_script:
     - docker push $CI_REGISTRY_IMAGE_LUMINET:$DEPLOY_ENV-latest
   tags:
     - docker
-
-build_k8s_local:
-  extends: 
-    - .build:default:image
-  environment:
-    name: k8s_LOCAL
-
-post_build_k8s_local:
-  needs: ['build_k8s_local']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: k8s_LOCAL
 
 build_eks_local:
   extends: 
@@ -98,6 +83,6 @@ deploy_eks_local:
     - aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${KUBERNETES_CLUSTER}
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
   script:
-    - helm upgrade -i imagepullsecrets $CHART_BASE_URL/imagepullsecrets --history-max 5 --set imageCredentials.registry=$CHART_BASE_URL 
+    - helm upgrade -i imagepullsecrets $CHART_BASE_URL/imagepullsecrets --history-max 5 -n $KUBERNETES_NAMESPACE --set imageCredentials.registry=$CHART_BASE_URL
       --set imageCredentials.username=$DOCKER_REG_LOCAL_USERNAME --set imageCredentials.password=$DOCKER_REG_LOCAL_PASSWORD
-    - helm upgrade -i $APP_NAME ./helm/ --history-max 5 -f ./helm/configs/values.yaml
+    - helm upgrade -i $APP_NAME $CHART_BASE_URL/deployapi --history-max 5 -n $KUBERNETES_NAMESPACE -f helm/configs/values.yaml
