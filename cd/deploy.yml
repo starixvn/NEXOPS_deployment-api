@@ -1,11 +1,13 @@
 variables:
   APP_NAME: "deployapi"
   K8S_NAMESPACE: "default"
+  CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
 
 .deploy_base:
   stage: deploy
   image: hub.nexdev.net/base/dtzar/helm-kubectl:3.12.3
-  when: manual
+  tags:
+    - docker
   script:
     - helm upgrade -i imagepullsecrets $CHART_BASE_URL/imagepullsecrets --history-max 5 -n $K8S_NAMESPACE --set imageCredentials.registry=$CHART_BASE_URL
       --set imageCredentials.username=$DOCKER_REG_LOCAL_USERNAME --set imageCredentials.password=$DOCKER_REG_LOCAL_PASSWORD
@@ -29,7 +31,6 @@ deploy_eks_local:
     AWS_DEFAULT_REGION: ap-east-1
     KUBERNETES_CLUSTER: lumi-local-eks
     REGISTRY_URL: hub.lumigame.com
-    CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
   needs: ['post_build_eks_local']
 
 deploy_k8s_local:
@@ -38,7 +39,6 @@ deploy_k8s_local:
     - .env_k8s_local
   variables:
     REGISTRY_URL: hub.lumigame.com
-    CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
   needs: ['post_build_k8s_local']
   before_script:
     - |
