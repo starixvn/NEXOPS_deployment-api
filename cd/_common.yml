@@ -14,3 +14,7 @@ stages:
 .env_eks_local:
   environment:
     name: "EKSLOCAL"
+
+.env_k8s_local:
+  environment:
+    name: "K8SLOCAL"

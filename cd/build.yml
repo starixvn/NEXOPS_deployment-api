@@ -43,3 +43,16 @@ post_build_eks_local:
     - .build_before_script
     - .post_build
     - .env_eks_local
+
+build_k8s_local:
+  extends:
+    - .build_before_script
+    - .build:default:image
+    - .env_k8s_local
+
+post_build_k8s_local:
+  needs: ['build_k8s_local']
+  extends:
+    - .build_before_script
+    - .post_build
+    - .env_k8s_local
