@@ -1,27 +1,29 @@
 variables:
   APP_NAME: "deployapi"
-  KUBERNETES_NAMESPACE: "default"
+  K8S_NAMESPACE: "default"
 
 .deploy_base:
   stage: deploy
   image: hub.nexdev.net/base/dtzar/helm-kubectl:3.12.3
   when: manual
   before_script:
-    - apk add py-pip --update
-    - pip install awscli
+    - apk add py-pip --update && pip install awscli
     - aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${KUBERNETES_CLUSTER}
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
   script:
-    - helm upgrade -i imagepullsecrets $CHART_BASE_URL/imagepullsecrets --history-max 5 -n $KUBERNETES_NAMESPACE --set imageCredentials.registry=$CHART_BASE_URL
+    - helm upgrade -i imagepullsecrets $CHART_BASE_URL/imagepullsecrets --history-max 5 -n $K8S_NAMESPACE --set imageCredentials.registry=$CHART_BASE_URL
       --set imageCredentials.username=$DOCKER_REG_LOCAL_USERNAME --set imageCredentials.password=$DOCKER_REG_LOCAL_PASSWORD
-    - helm upgrade -i $APP_NAME ./helm/ --history-max 5 -n $KUBERNETES_NAMESPACE -f ./helm/configs/values.${CI_ENVIRONMENT_NAME}.yaml
+    - helm upgrade -i $APP_NAME ./helm/ --history-max 5 -n $K8S_NAMESPACE -f ./helm/configs/values.${CI_ENVIRONMENT_NAME}.yaml
 
 deploy_eks_local:
   extends:
     - .deploy_base
+    - .env_eks_local
   variables:
+    AWS_ACCESS_KEY_ID: AKIAYP7ZS6XE7VHD6JFG
+    AWS_SECRET_ACCESS_KEY: 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
+    AWS_DEFAULT_REGION: ap-east-1
+    KUBERNETES_CLUSTER: lumi-local-eks
     REGISTRY_URL: hub.lumigame.com
     CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
-  environment:
-    name: $EKS_LOCAL
   needs: ['post_build_eks_local']

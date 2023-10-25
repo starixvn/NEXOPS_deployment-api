@@ -11,5 +11,6 @@ stages:
   - post-build
   - deploy
 
-variables:  
-  EKS_LOCAL: "EKSLOCAL"
+.env_eks_local:
+  environment:
+    name: "EKSLOCAL"

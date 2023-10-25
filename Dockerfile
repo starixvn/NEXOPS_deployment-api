@@ -5,9 +5,9 @@ USER root
 RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
     && chmod +x get_helm.sh && ./get_helm.sh
 
-ENV TZ="America/New_York"
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+ENV TZ="America/New_York" \
+    NODE_ENV=production
+
 RUN mkdir /app && chown node:node /app
 
 WORKDIR /app
