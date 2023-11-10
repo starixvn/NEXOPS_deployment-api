@@ -1,0 +1,28 @@
+# Default values for deploy api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# override values of dependency k8sdeployments
+k8sdeployments:
+  replicaCount: 1
+
+  image:
+    name: "lumhub.sportsfun.app/aws/nexops/deployment-api:EKSUAT-latest"
+    pullSecretName: regcred-secret
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: deployapi-eksuat.sportsfun.app
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  nodeSelector: {}
+  service:
+  # kind of types: ClusterIP, NodePort, LoadBalancer
+    type: ClusterIP

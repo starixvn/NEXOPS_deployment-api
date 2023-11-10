@@ -46,3 +46,16 @@ deploy_k8s_local:
       cp ./cd/configs/kubeconfig.k8slocal /root/.kube/config
       chmod 400 /root/.kube/config
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
+
+deploy_eks_uat:
+  extends:
+    - .deploy_eks_base
+    - .env_eks_uat
+  variables:
+    AWS_ACCESS_KEY_ID: ASIAQG7QGZI4TBUAJ6GU
+    AWS_SECRET_ACCESS_KEY: RPsuCdhXunqN24pZoCkWvDyRSUqkUIrC8lVWQABR
+    AWS_SESSION_TOKEN: FwoGZXIvYXdzELz//////////wEaDBrzysa199j8q9mI5CKGAf3YtR5G6say+lrCOAlD2dkWWw39Va7goSFRSglj0JWPoLbgJK6g37NNHrlV3+7nxtUL16pnjCRfGqa2+AEIrt622V9BHqKDbQGeaBLnrnGYJsrU8nTtvri6uJPR0VXmYdXR5foPFWVwolil4aAq+FaJ5VxoObemWy8NMlDePYOfIJMoCnkpKNmutqoGMigpULrGZDY1M8Sb6Ai6ufEVMzJUIkNZTBJRDmtbYpzi7z/WXW7bqgs8
+    AWS_DEFAULT_REGION: ap-northeast-1
+    KUBERNETES_CLUSTER: lumi-uat-eks
+    REGISTRY_URL: lumhub.sportsfun.app/aws
+  needs: ['post_build_eks_uat']

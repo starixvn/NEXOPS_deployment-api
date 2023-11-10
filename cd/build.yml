@@ -60,3 +60,18 @@ post_build_k8s_local:
     - .build_base
     - .post_build
     - .env_k8s_local
+
+build_eks_uat:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_eks_uat
+
+post_build_eks_uat:
+  needs: ['build_eks_uat']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_eks_uat

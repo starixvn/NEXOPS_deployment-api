@@ -18,3 +18,7 @@ stages:
 .env_k8s_local:
   environment:
     name: "K8SLOCAL"
+
+.env_eks_uat:
+  environment:
+    name: "EKSUAT"
