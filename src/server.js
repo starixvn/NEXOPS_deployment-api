@@ -7,7 +7,7 @@ const controllers = require('./controllers');
 
 Sentry.init({
   dsn: configs.sentryDsn,
-  tracesSampleRate: 1.0,
+  maxValueLength: 1000
 });
 
 server.register(multer.contentParser).register(require('fastify-cors'), {
