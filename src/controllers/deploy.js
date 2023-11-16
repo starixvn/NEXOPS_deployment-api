@@ -79,7 +79,6 @@ module.exports = (server) => {
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
-      registryUrl = new URL(chartBaseUrl).host,
       user = replaceSpaces(request.body.registryUser),
       password = replaceSpaces(request.body.registryPassword),
       configFileName = replaceSpaces(request.body.configFileName),
@@ -98,6 +97,31 @@ module.exports = (server) => {
     if (spFileName) {
       commands = `${commands} --set-file "spFile.content=${spFileName}"`;
     }
+
+    execCommands(commands, request, response);
+  });
+
+  server.post("/updateIngress", { preHandler: upload.none() }, (request, response) => {
+    const releaseName = normalize(request.body.releaseName),
+      workingDirectory = replaceSpaces(request.body.workingDirectory),
+      env = replaceSpaces(request.body.env),
+      chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
+      configFileName = replaceSpaces(request.body.configFileName),
+      spFileName = replaceSpaces(request.body.spFileName);
+
+    loginRegistry(request, response);
+
+    let commands = `cd ${workingDirectory}/${env} && helm template ${releaseName} ${chartBaseUrl}/k8sdeployments -f k8sdeployments-values.yaml -s templates/ingress.yaml`;
+
+    if (configFileName) {
+      commands = `${commands} --set-file "configFile.content=${configFileName}"`;
+    }
+
+    if (spFileName) {
+      commands = `${commands} --set-file "spFile.content=${spFileName}"`;
+    }
+
+    commands = `${commands} | kubectl apply -f -`;
 
     execCommands(commands, request, response);
   });

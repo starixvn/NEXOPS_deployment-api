@@ -22,7 +22,8 @@ k8sdeployments:
     #    hosts:
     #      - chart-example.local
 
-  nodeSelector: {}
+  nodeSelector:
+    haproxy: "yes"
   service:
   # kind of types: ClusterIP, NodePort, LoadBalancer
     type: ClusterIP
