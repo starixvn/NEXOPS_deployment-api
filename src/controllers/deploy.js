@@ -107,21 +107,27 @@ module.exports = (server) => {
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
       configFileName = replaceSpaces(request.body.configFileName),
-      spFileName = replaceSpaces(request.body.spFileName);
+      spFileName = replaceSpaces(request.body.spFileName),
+      enableIngress = replaceSpaces(request.body.enableIngress);
+    let commands = "";
 
-    loginRegistry(request, response);
+    if (enableIngress == "true") {
+      loginRegistry(request, response);
 
-    let commands = `cd ${workingDirectory}/${env} && helm template ${releaseName} ${chartBaseUrl}/k8sdeployments -f k8sdeployments-values.yaml -s templates/ingress.yaml`;
+      commands = `cd ${workingDirectory}/${env} && helm template ${releaseName} ${chartBaseUrl}/k8sdeployments -f k8sdeployments-values.yaml -s templates/ingress.yaml`;
 
-    if (configFileName) {
-      commands = `${commands} --set-file "configFile.content=${configFileName}"`;
+      if (configFileName) {
+        commands = `${commands} --set configFile.content=''`;
+      }
+
+      if (spFileName) {
+        commands = `${commands} --set spFile.content=''`;
+      }
+
+      commands = `${commands} | kubectl apply -f -`;
+    } else {
+      commands = `kubectl delete ingress ${releaseName}-ingress -n default --ignore-not-found`;
     }
-
-    if (spFileName) {
-      commands = `${commands} --set-file "spFile.content=${spFileName}"`;
-    }
-
-    commands = `${commands} | kubectl apply -f -`;
 
     execCommands(commands, request, response);
   });
