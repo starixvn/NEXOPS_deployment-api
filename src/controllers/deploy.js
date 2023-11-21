@@ -74,21 +74,36 @@ module.exports = (server) => {
     }
   };
 
+  const createNamespace = (request, response) => {
+    const namespace = normalize(request.body.namespace),
+      commands = `echo '{"apiVersion":"v1","kind":"Namespace","metadata":{"labels":{"name":"${namespace}"},"name":"${namespace}"}}' | kubectl apply -f -`;
+
+    try {
+      execSync(commands);
+    } catch (error) {
+      logError(request, response, error);
+    }
+  };
+
   server.post("/deployKubernetes", { preHandler: upload.none() }, (request, response) => {
     const releaseName = normalize(request.body.releaseName),
+      namespace = normalize(request.body.namespace),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
+      chartVersion = replaceSpaces(request.body.chartVersion),
       user = replaceSpaces(request.body.registryUser),
       password = replaceSpaces(request.body.registryPassword),
       configFileName = replaceSpaces(request.body.configFileName),
       spFileName = replaceSpaces(request.body.spFileName),
       historyMax = "--history-max 5";
 
+    createNamespace(request, response);
+
     loginRegistry(request, response);
 
-    let commands = `helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
-    commands = `${commands} && cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -f k8sdeployments-values.yaml`;
+    let commands = `helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} -n ${namespace} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
+    commands = `${commands} && cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -n ${namespace} -f k8sdeployments-values.yaml --version ${chartVersion}`;
 
     if (configFileName) {
       commands = `${commands} --set-file "configFile.content=${configFileName}"`;
@@ -103,18 +118,22 @@ module.exports = (server) => {
 
   server.post("/updateIngress", { preHandler: upload.none() }, (request, response) => {
     const releaseName = normalize(request.body.releaseName),
+      namespace = normalize(request.body.namespace),
       workingDirectory = replaceSpaces(request.body.workingDirectory),
       env = replaceSpaces(request.body.env),
       chartBaseUrl = replaceSpaces(request.body.chartBaseUrl),
+      chartVersion = replaceSpaces(request.body.chartVersion),
       configFileName = replaceSpaces(request.body.configFileName),
       spFileName = replaceSpaces(request.body.spFileName),
       enableIngress = replaceSpaces(request.body.enableIngress);
     let commands = "";
 
     if (enableIngress == "true") {
+      createNamespace(request, response);
+
       loginRegistry(request, response);
 
-      commands = `cd ${workingDirectory}/${env} && helm template ${releaseName} ${chartBaseUrl}/k8sdeployments -f k8sdeployments-values.yaml -s templates/ingress.yaml`;
+      commands = `cd ${workingDirectory}/${env} && helm template ${releaseName} ${chartBaseUrl}/k8sdeployments -n ${namespace} -f k8sdeployments-values.yaml -s templates/ingress.yaml --version ${chartVersion}`;
 
       if (configFileName) {
         commands = `${commands} --set configFile.content=''`;
@@ -126,7 +145,7 @@ module.exports = (server) => {
 
       commands = `${commands} | kubectl apply -f -`;
     } else {
-      commands = `kubectl delete ingress ${releaseName}-ingress -n default --ignore-not-found`;
+      commands = `kubectl delete ingress ${releaseName}-ingress -n ${namespace} --ignore-not-found`;
     }
 
     execCommands(commands, request, response);

@@ -1,6 +1,6 @@
 variables:
   APP_NAME: "deployapi"
-  K8S_NAMESPACE: "default"
+  K8S_NAMESPACE: nexops
   CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
 
 .deploy_base:
@@ -39,6 +39,7 @@ deploy_k8s_local:
     - .env_k8s_local
   variables:
     REGISTRY_URL: hub.lumigame.com
+    K8S_NAMESPACE: default
   needs: ['post_build_k8s_local']
   before_script:
     - |
@@ -52,9 +53,9 @@ deploy_eks_uat:
     - .deploy_eks_base
     - .env_eks_uat
   variables:
-    AWS_ACCESS_KEY_ID: ASIAQG7QGZI4SNDOBXNC
-    AWS_SECRET_ACCESS_KEY: 7dgnGNudaPiVQ/mPXbCQdzc9LnGmhNFdxbKm7782
-    AWS_SESSION_TOKEN: FwoGZXIvYXdzEEsaDJhIQx/QWQGHcbq3DSKGAVaGs4mJSt2lXCiPdALq/cW/wMcZuz5EKvomSvJrPZvjO2NhA3krVhDwu3BqulzA0/kQNurZxGWRg1RfGgQtnijN8GQ2Y5h2VyWorLbeIH6QLPrtTe4QNstnotAFP89gthlqyKUSpg0nRLY302VmgXKvBffR6k4u84NbJW46mvY+FjMqo8O/KNXr1aoGMihEfFG6kvLTKSTyi5L3SUtzEf/5dBB3uvtox8s60QWIlA37Bl9jMtVI
+    AWS_ACCESS_KEY_ID: ASIAQG7QGZI44P5LGRIY
+    AWS_SECRET_ACCESS_KEY: Mr9fF1c9lbkbdSDRNXSIPaS3DIbYECTHCNgNfb06
+    AWS_SESSION_TOKEN: FwoGZXIvYXdzENv//////////wEaDFtTadqPJutf5g7+VCKGAfOTLWBaBfAO02/Et58p8QmgE9zGQYScbV3PKoXRQgalB9zNE6ETklNGh3+SnjDtcn1L2PNMQ76aaQ5+RRABQXyTFjJKfV5S7wk92j06MOpEPaWLbiSq6DUfyspfmKfr8cXxDA+S3lkich9YsmkYjBxpbc3pNQ9JgEBlJqyaAtg4JUU7hOCDKO2w9aoGMigt3ir6+R1ddJOdUqF8325vH8UPBsBWILHqLYkE1Qlyl6AO6KiDnOdI
     AWS_DEFAULT_REGION: ap-northeast-1
     KUBERNETES_CLUSTER: lumi-uat-eks
     REGISTRY_URL: lumhub.sportsfun.app/aws

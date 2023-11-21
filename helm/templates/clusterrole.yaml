@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-clusterrole
 rules:
   - apiGroups: [""]
-    resources: ["services", "endpoints","pods", "secrets", "configmaps", "persistentvolumes", "persistentvolumeclaims"]
+    resources: ["services", "endpoints","pods", "secrets", "configmaps", "persistentvolumes", "persistentvolumeclaims", "namespaces"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 
   - apiGroups: ["apps"]
