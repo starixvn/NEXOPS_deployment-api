@@ -18,7 +18,7 @@ variables:
     - .deploy_base
   before_script:
     - apk add py-pip --update && pip install awscli
-    - aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${KUBERNETES_CLUSTER}
+    - aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${KUBERNETES_CLUSTER} && cat /root/.kube/config
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
 
 deploy_eks_local:
