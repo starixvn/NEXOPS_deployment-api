@@ -75,3 +75,18 @@ post_build_eks_uat:
     - .build_base
     - .post_build
     - .env_eks_uat
+
+build_eks_prod:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_eks_prod
+
+post_build_eks_prod:
+  needs: ['build_eks_prod']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_eks_prod

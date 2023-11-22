@@ -22,3 +22,7 @@ stages:
 .env_eks_uat:
   environment:
     name: "EKSUAT"
+
+.env_eks_prod:
+  environment:
+    name: "EKSPROD"
