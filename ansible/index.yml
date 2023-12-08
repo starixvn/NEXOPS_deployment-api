@@ -1,5 +1,7 @@
 ---
 - hosts: swarm_leader
+  vars:
+    gluster_path: /var/www/gluster/nexops/deployapi
   roles:
     - role: deploy
 
