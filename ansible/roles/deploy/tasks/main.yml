@@ -3,7 +3,7 @@
   file:
     path: "/home/{{ansible_user}}/stacks/{{env}}{{version}}"
     state: directory
-  become: yes
+  #become: yes
 
 - name: Copy docker-compose file
   template:
