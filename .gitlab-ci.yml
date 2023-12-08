@@ -68,19 +68,6 @@ post:build:local:
   environment:
     name: LOCAL
 
-build:awslocal:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWSLOCAL
-
-post:build:awslocal:
-  needs: ['build:awslocal']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSLOCAL
-
 build:local1:
   extends: 
     - .build:default:image
@@ -126,32 +113,6 @@ post:build:uat:
   environment:
     name: UAT
 
-build:awsuat:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWSUAT
-
-post:build:awsuat:
-  needs: ['build:awsuat']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSUAT
-
-build:aws:
-  extends: 
-    - .build:default:image
-  environment:
-    name: AWS
-
-post:build:aws:
-  needs: ['build:aws']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWS
-
 build:nexaws:
   extends: 
     - .build:default:image
@@ -177,15 +138,8 @@ post:build:prod:
   environment:
     name: PROD
 
-build:awsprod:
+build:kldr:
   extends: 
     - .build:default:image
   environment:
-    name: AWSPROD
-
-post:build:awsprod:
-  needs: ['build:awsprod']
-  extends: 
-    - .custom_post_build
-  environment:
-    name: AWSPROD
+    name: KLDR
