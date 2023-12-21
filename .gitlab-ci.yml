@@ -143,3 +143,16 @@ build:kldr:
     - .build:default:image
   environment:
     name: KLDR
+
+build:awsdr:
+  extends: 
+    - .build:default:image
+  environment:
+    name: AWSDR
+
+post:build:awsdr:
+  needs: ['build:awsdr']
+  extends: 
+    - .custom_post_build
+  environment:
+    name: AWSDR
