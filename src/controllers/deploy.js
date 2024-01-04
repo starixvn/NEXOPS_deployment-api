@@ -38,7 +38,7 @@ module.exports = (server) => {
       port: request.body.port ?? 22,
       username: request.body.user ?? "root",
       privateKey: path.join(__dirname, "../id_rsa"),
-      readyTimeout: 40000
+      readyTimeout: 90000
     };
   };
 
