@@ -17,7 +17,7 @@ ENV TZ="America/New_York" \
 RUN mkdir /app && chown node:node /app
 
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json ./
 RUN yarn install --production
 ENV PATH /app/node_modules/.bin:$PATH
 

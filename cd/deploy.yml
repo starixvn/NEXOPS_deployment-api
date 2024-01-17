@@ -39,7 +39,6 @@ deploy_k8s_local:
     - .env_k8s_local
   variables:
     REGISTRY_URL: hub.lumigame.com
-    K8S_NAMESPACE: default
   needs: ['post_build_k8s_local']
   before_script:
     - |
