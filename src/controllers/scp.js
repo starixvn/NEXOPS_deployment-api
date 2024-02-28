@@ -1,6 +1,5 @@
 const { NodeSSH } = require('node-ssh');
 const fs = require('fs');
-const ssh = new NodeSSH();
 const path = require('path');
 const multer = require('fastify-multer');
 const storage = multer.memoryStorage();
@@ -13,9 +12,11 @@ module.exports = (server) => {
   };
 
   server.post('/scp', { preHandler: upload.single('file') }, async (req, res) => {
+    const ssh = new NodeSSH();
     const file = req.file;
     const fileName = file.originalname;
     const folderPath = mkDirByPathSync('./temp/' + randomString(), true);
+
     fs.writeFileSync(`${folderPath}/${fileName}`, file.buffer);
 
     ssh
@@ -29,10 +30,14 @@ module.exports = (server) => {
         ssh
           .putFile(`${folderPath}/${fileName}`, `${req.body.remotePath}`)
           .then(() => {
+            ssh.dispose();
+
             fs.rmdirSync(folderPath, { recursive: true });
             res.status(200).send('success');
           })
           .catch((error) => {
+            ssh.dispose();
+
             Sentry.captureMessage(`**[${req.body.env}|${req.body.host}|${req.body.pipelineId}]** ${error}`, 'error');
             res.status(500).send(error);
           });

@@ -1,5 +1,4 @@
 const { NodeSSH } = require("node-ssh");
-const ssh = new NodeSSH();
 const path = require("path");
 const Sentry = require("@sentry/node");
 const multer = require('fastify-multer');
@@ -44,6 +43,7 @@ module.exports = (server) => {
 
   const runRemoteCommands = (commands, request, response, callback) => {
     const connectionOpts = createConnectionOption(request);
+    const ssh = new NodeSSH();
 
     ssh
       .connect(connectionOpts)
@@ -51,9 +51,13 @@ module.exports = (server) => {
         ssh
           .execCommand(commands)
           .then((result) => {
-            handleResult(request, response, result, callback);
+            ssh.dispose();
+
+            handleResult(request, response, result, callback);            
           })
           .catch((error) => {
+            ssh.dispose();
+            
             logError(request, response, error);
           });
       })
