@@ -3,6 +3,14 @@ variables:
   K8S_NAMESPACE: nexops
   CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
 
+.deploy_k8s_before_script:
+  before_script:
+    - |
+      mkdir /root/.kube
+      cp ./cd/configs/kubeconfig.${CI_ENVIRONMENT_NAME} /root/.kube/config
+      chmod 400 /root/.kube/config
+    - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
+
 .deploy_base:
   stage: deploy
   image: hub.nexdev.net/base/dtzar/helm-kubectl:3.12.3
@@ -37,15 +45,19 @@ deploy_k8s_local:
   extends:
     - .deploy_base
     - .env_k8s_local
+    - .deploy_k8s_before_script
   variables:
     REGISTRY_URL: hub.lumigame.com
   needs: ['post_build_k8s_local']
-  before_script:
-    - |
-      mkdir /root/.kube
-      cp ./cd/configs/kubeconfig.k8slocal /root/.kube/config
-      chmod 400 /root/.kube/config
-    - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
+
+deploy_k8s_uat:
+  extends:
+    - .deploy_base
+    - .env_k8s_uat
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_URL: lumhub.starixplay.com/kbt
+  needs: ['post_build_k8s_uat']
 
 deploy_eks_uat:
   extends:
