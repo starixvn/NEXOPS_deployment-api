@@ -7,7 +7,7 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "lumhub.starixplay.com/kbt/nexops/deployment-api:K8SUAT-latest"
+    name: "lumhub.nebula.prod/kbt/nexops/deployment-api:K8SUAT-latest"
     pullSecretName: regcred-secret
 
   ingress:
