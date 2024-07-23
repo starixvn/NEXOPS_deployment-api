@@ -61,6 +61,14 @@ post_build_k8s_local:
     - .post_build
     - .env_k8s_local
 
+build_k3s_nexprod:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k3s_nexprod
+
 build_k8s_uat:
   when: manual
   allow_failure: false

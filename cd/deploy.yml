@@ -49,6 +49,15 @@ deploy_k8s_local:
     - .deploy_k8s_before_script
   needs: ["post_build_k8s_local"]
 
+deploy_k3s_nexprod:
+  extends:
+    - .deploy_base
+    - .env_k3s_nexprod
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_URL: hub.nexdev.net
+  needs: ["build_k3s_nexprod"]
+
 deploy_k8s_uat:
   extends:
     - .deploy_base

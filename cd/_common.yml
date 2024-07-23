@@ -19,6 +19,10 @@ stages:
   environment:
     name: "K8SLOCAL"
 
+.env_k3s_nexprod:
+  environment:
+    name: "K3SNEXPROD"
+
 .env_k8s_uat:
   environment:
     name: "K8SUAT"
