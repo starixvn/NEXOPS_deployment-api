@@ -11,6 +11,11 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master
     && kubectl version --client \
     && helm version
 
+# Install self certificates for lumhub.nebula.prod
+COPY certs/rootCAnebula.crt /usr/local/share/ca-certificates/rootCAnebula.crt
+
+RUN update-ca-certificates
+
 ENV TZ="America/New_York" \
     NODE_ENV=production
 
