@@ -49,6 +49,13 @@ deploy_k8s_local:
     - .deploy_k8s_before_script
   needs: ["post_build_k8s_local"]
 
+deploy_k8s_s1local:
+  extends:
+    - .deploy_base
+    - .env_k8s_s1local
+    - .deploy_k8s_before_script
+  needs: ["post_build_k8s_s1local"]
+
 deploy_k3s_nexprod:
   extends:
     - .deploy_base
