@@ -65,14 +65,14 @@ deploy_k3s_nexprod:
     REGISTRY_URL: hub.nexdev.net
   needs: ["build_k3s_nexprod"]
 
-deploy_k8s_uat:
+deploy_k8s_s1uat:
   extends:
     - .deploy_base
-    - .env_k8s_uat
+    - .env_k8s_s1uat
     - .deploy_k8s_before_script
   variables:
     REGISTRY_PULL_IMAGE: https://lumhub.nebula.prod/kbt
-  needs: ["post_build_k8s_uat"]
+  needs: ["post_build_k8s_s1uat"]
 
 deploy_eks_uat:
   extends:

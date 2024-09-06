@@ -7,13 +7,17 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "lumhub.nebula.prod/kbt/nexops/deployment-api:K8SUAT-latest"
+    name: "s1hub.nebula.prod/kbt/nexops/deployment-api:S1UAT-latest"
     pullSecretName: regcred-secret
 
   ingress:
     enabled: true
     hosts:
-      - host: deployapi-k8s.sgamesuat.com
+      - host: s1deployapi.starixuat.com
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: s1deployapi2.starixuat.com
         paths:
           - path: /
             pathType: Prefix
