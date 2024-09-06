@@ -38,3 +38,7 @@ stages:
 .env_eks_prod:
   environment:
     name: "EKSPROD"
+
+.env_k8s_s1prod:
+  environment:
+    name: "S1PROD"

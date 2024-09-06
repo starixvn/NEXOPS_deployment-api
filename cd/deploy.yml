@@ -71,7 +71,7 @@ deploy_k8s_s1uat:
     - .env_k8s_s1uat
     - .deploy_k8s_before_script
   variables:
-    REGISTRY_PULL_IMAGE: https://lumhub.nebula.prod/kbt
+    REGISTRY_PULL_IMAGE: https://s1hub.nebula.prod/kbt
   needs: ["post_build_k8s_s1uat"]
 
 deploy_eks_uat:
@@ -99,3 +99,12 @@ deploy_eks_prod:
     KUBERNETES_CLUSTER: lumi-prod-eks
     REGISTRY_URL: lumhub.sportsfun.app/aws
   needs: ["post_build_eks_prod"]
+
+deploy_k8s_s1prod:
+  extends:
+    - .deploy_base
+    - .env_k8s_s1prod
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_PULL_IMAGE: https://s1hub.nebula.prod/kbt
+  needs: ["post_build_k8s_s1prod"]

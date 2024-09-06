@@ -128,3 +128,18 @@ post_build_eks_prod:
     - .build_base
     - .post_build
     - .env_eks_prod
+
+build_k8s_s1prod:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_s1prod
+
+post_build_k8s_s1prod:
+  needs: ['build_k8s_s1prod']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k8s_s1prod
