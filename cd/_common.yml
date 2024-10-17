@@ -42,3 +42,7 @@ stages:
 .env_k8s_s1prod:
   environment:
     name: "S1PROD"
+
+.env_k8s_twprod:
+  environment:
+    name: "TWPROD"
