@@ -46,3 +46,7 @@ stages:
 .env_k8s_twprod:
   environment:
     name: "TWPROD"
+
+.env_k3s_prod:
+  environment:
+    name: "K3SPROD"

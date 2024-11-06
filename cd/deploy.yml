@@ -108,3 +108,13 @@ deploy_k8s_s1prod:
   variables:
     REGISTRY_PULL_IMAGE: https://s1hub.nebula.prod/kbt
   needs: ["post_build_k8s_s1prod"]
+
+deploy_k3s_prod:
+  extends:
+    - .deploy_base
+    - .env_k3s_prod
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_URL: hub.nexdev.net
+    REGISTRY_PULL_IMAGE: https://nexhub.nebula.prod/kbt
+  needs: ["build_k3s_prod"]
