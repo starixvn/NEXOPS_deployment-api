@@ -2,7 +2,7 @@ image: hub.nexdev.net/base/docker:24.0.4-bash-jq-jinja
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "k8s"
+    - if: $CI_COMMIT_BRANCH == "k8s-tw"
       when: always
     - when: never
 
@@ -11,42 +11,6 @@ stages:
   - post-build
   - deploy
 
-.env_eks_local:
-  environment:
-    name: "EKSLOCAL"
-
-.env_k8s_local:
-  environment:
-    name: "K8SLOCAL"
-
-.env_k8s_s1local:
-  environment:
-    name: "S1LOCAL"
-
-.env_k3s_nexprod:
-  environment:
-    name: "K3SNEXPROD"
-
-.env_k8s_s1uat:
-  environment:
-    name: "S1UAT"
-
-.env_eks_uat:
-  environment:
-    name: "EKSUAT"
-
-.env_eks_prod:
-  environment:
-    name: "EKSPROD"
-
-.env_k8s_s1prod:
-  environment:
-    name: "S1PROD"
-
 .env_k8s_twprod:
   environment:
     name: "TWPROD"
-
-.env_k3s_prod:
-  environment:
-    name: "K3SPROD"
