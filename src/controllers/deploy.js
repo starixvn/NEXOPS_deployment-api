@@ -98,12 +98,9 @@ module.exports = (server) => {
       spFileName = replaceSpaces(request.body.spFileName),
       historyMax = "--history-max 5";
 
-    createNamespace(request, response);
-
     loginRegistry(request, response);
 
-    let commands = `helm upgrade -i imagepullsecrets ${chartBaseUrl}/imagepullsecrets ${historyMax} -n ${namespace} --set imageCredentials.registry=${chartBaseUrl} --set imageCredentials.username=${user} --set imageCredentials.password=${password}`;
-    commands = `${commands} && cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -n ${namespace} -f k8sdeployments-values.yaml --version ${chartVersion}`;
+    let commands = `cd ${workingDirectory}/${env} && helm upgrade -i ${releaseName} ${chartBaseUrl}/k8sdeployments ${historyMax} -n ${namespace} -f k8sdeployments-values.yaml --version ${chartVersion}`;
 
     if (configFileName) {
       commands = `${commands} --set-file "configFile.content=${configFileName}"`;
