@@ -14,3 +14,7 @@ stages:
 .env_k8s_twprod:
   environment:
     name: "TWPROD"
+
+.env_k8s_twkl:
+  environment:
+    name: "TWKL"

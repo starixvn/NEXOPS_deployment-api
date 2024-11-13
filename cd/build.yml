@@ -38,3 +38,11 @@ build_k8s_twprod:
     - .build_base
     - .build:default:image
     - .env_k8s_twprod
+
+build_k8s_twkl:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_twkl
