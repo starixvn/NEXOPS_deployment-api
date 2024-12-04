@@ -7,13 +7,13 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "hub.lumigame.com/nexops/deployment-api:S1LOCAL-latest"
+    name: "hub.nexdev.net/nexops/deployment-api:S1LOCAL-latest"
     pullSecretName: regcred-secret
 
   ingress:
     enabled: true
     hosts:
-      - host: deployapi-s1.lumigame.com
+      - host: deployapi-s1.starixnet.com
         paths:
           - path: /
             pathType: Prefix
