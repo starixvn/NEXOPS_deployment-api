@@ -65,14 +65,14 @@ deploy_k3s_nexprod:
     REGISTRY_URL: hub.nexdev.net
   needs: ["build_k3s_nexprod"]
 
-deploy_k8s_s1uat:
+deploy_k8s_scuat:
   extends:
     - .deploy_base
-    - .env_k8s_s1uat
+    - .env_k8s_scuat
     - .deploy_k8s_before_script
   variables:
     REGISTRY_PULL_IMAGE: https://s1hub.nebula.prod/kbt
-  needs: ["post_build_k8s_s1uat"]
+  needs: ["post_build_k8s_scuat"]
 
 deploy_eks_uat:
   extends:
@@ -100,14 +100,14 @@ deploy_eks_prod:
     REGISTRY_URL: lumhub.sportsfun.app/aws
   needs: ["post_build_eks_prod"]
 
-deploy_k8s_s1prod:
+deploy_k8s_scprod:
   extends:
     - .deploy_base
-    - .env_k8s_s1prod
+    - .env_k8s_scprod
     - .deploy_k8s_before_script
   variables:
     REGISTRY_PULL_IMAGE: https://s1hub.nebula.prod/kbt
-  needs: ["post_build_k8s_s1prod"]
+  needs: ["post_build_k8s_scprod"]
 
 deploy_k3s_prod:
   extends:

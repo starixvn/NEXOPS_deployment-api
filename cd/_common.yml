@@ -27,9 +27,9 @@ stages:
   environment:
     name: "K3SNEXPROD"
 
-.env_k8s_s1uat:
+.env_k8s_scuat:
   environment:
-    name: "S1UAT"
+    name: "SCUAT"
 
 .env_eks_uat:
   environment:
@@ -39,9 +39,9 @@ stages:
   environment:
     name: "EKSPROD"
 
-.env_k8s_s1prod:
+.env_k8s_scprod:
   environment:
-    name: "S1PROD"
+    name: "SCPROD"
 
 .env_k8s_twprod:
   environment:
