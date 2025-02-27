@@ -61,20 +61,20 @@ post_build_k8s_local:
     - .post_build
     - .env_k8s_local
 
-build_k8s_s1local:
+build_k3s_lumprod:
   when: manual
   allow_failure: false
   extends:
     - .build_base
     - .build:default:image
-    - .env_k8s_s1local
+    - .env_k3s_lumprod
 
-post_build_k8s_s1local:
-  needs: ['build_k8s_s1local']
+post_build_k3s_lumprod:
+  needs: ['build_k3s_lumprod']
   extends:
     - .build_base
     - .post_build
-    - .env_k8s_s1local
+    - .env_k3s_lumprod
 
 build_k3s_nexprod:
   when: manual
