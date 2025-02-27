@@ -7,7 +7,7 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "hub.nexdev.net/nexops/deployment-api:K3SLUMPROD-latest"
+    name: "hub.lumigame.com/nexops/deployment-api:K3SLUMPROD-latest"
     pullSecretName: regcred-secret
 
   ingress:
