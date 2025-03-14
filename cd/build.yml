@@ -1,6 +1,6 @@
 variables:
   PROJECT_ROOT_PATH: .
-  DOCKER_IMAGE_PATH: nexops/deployment-api
+  DOCKER_IMAGE_PATH: nexpe/deployment-api
   DOCKER_FILE_PATH: ./
   DOCKER_FILE_NAME: Dockerfile
   CONFIG_FILE_PATH: ./src
@@ -159,3 +159,11 @@ build_k3s_prod:
     - .build_base
     - .build:default:image
     - .env_k3s_prod
+
+build_starix_local:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_starix_local
