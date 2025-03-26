@@ -13,7 +13,7 @@ k8sdeployments:
   ingress:
     enabled: true
     hosts:
-      - host: deployapi-k8shr.byb6181.com
+      - host: deployapi-k8sklhr.starixplay.com
         paths:
           - path: /
             pathType: Prefix
