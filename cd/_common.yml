@@ -51,6 +51,10 @@ stages:
   environment:
     name: "TWPROD"
 
+.env_k8s_klhr:
+  environment:
+    name: "K8SKLHR"
+
 .env_k3s_prod:
   environment:
     name: "K3SPROD"

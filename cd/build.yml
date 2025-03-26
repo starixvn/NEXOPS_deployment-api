@@ -152,6 +152,14 @@ build_k8s_twprod:
     - .build:default:image
     - .env_k8s_twprod
 
+build_k8s_klhr:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_klhr
+
 build_k3s_prod:
   when: manual
   allow_failure: false
