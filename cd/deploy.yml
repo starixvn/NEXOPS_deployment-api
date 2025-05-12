@@ -116,7 +116,6 @@ deploy_k8s_klhr:
     - .deploy_k8s_before_script
   variables:
     REGISTRY_URL: hub.nexdev.net
-    REGISTRY_PULL_IMAGE: https://harbor.byb6181.com/vn-st
   needs: ["build_k8s_klhr"]
 
 deploy_k3s_prod:

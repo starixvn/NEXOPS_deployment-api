@@ -7,7 +7,7 @@ k8sdeployments:
   replicaCount: 1
 
   image:
-    name: "harbor.byb6181.com/vn-st/nexpe/deployment-api:K8SKLHR-latest"
+    name: "hub.nexdev.net/nexpe/deployment-api:K8SKLHR-latest"
     pullSecretName: regcred-secret
 
   ingress:
