@@ -175,3 +175,18 @@ build_starix_local:
     - .build_base
     - .build:default:image
     - .env_starix_local
+
+build_k8s_scsit:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_scsit
+
+post_build_k8s_scsit:
+  needs: ['build_k8s_scsit']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k8s_scsit

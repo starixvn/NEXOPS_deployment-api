@@ -136,3 +136,12 @@ deploy_starix_local:
   variables:
     REGISTRY_URL: hub.nexdev.net
   needs: ["build_starix_local"]
+
+deploy_k8s_scsit:
+  extends:
+    - .deploy_base
+    - .env_k8s_scsit
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_PULL_IMAGE: https://lumhub.ops-sit.nebula.sit/kbt
+  needs: ["post_build_k8s_scsit"]

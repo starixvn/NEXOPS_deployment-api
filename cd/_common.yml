@@ -58,3 +58,7 @@ stages:
 .env_k3s_prod:
   environment:
     name: "K3SPROD"
+
+.env_k8s_scsit:
+  environment:
+    name: "SCSIT"
