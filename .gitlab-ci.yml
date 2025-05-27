@@ -144,6 +144,12 @@ build:kldr:
   environment:
     name: KLDR
 
+build:klprod:
+  extends: 
+    - .build:default:image
+  environment:
+    name: KLPROD
+
 build:awsdr:
   extends: 
     - .build:default:image

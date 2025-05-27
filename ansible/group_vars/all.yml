@@ -8,6 +8,7 @@ nexcel_deploymentapi_image_PROD: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_PROD_FPS: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_PROD_ALPHA: nexhub.starixplay.com/kbt
 nexcel_deploymentapi_image_KLDR: nexhub.starixplay.com/kbt
+nexcel_deploymentapi_image_KLPROD: nexhub.ops-klprod.gamora.prod/kbt
 nexcel_deploymentapi_image_AWS: hub.nexdev.net
 nexcel_deploymentapi_image_NEXAWS: hub.nexdev.net
 nexcel_deploymentapi_image_GC: hub.nexdev.net
