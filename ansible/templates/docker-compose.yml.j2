@@ -23,7 +23,7 @@ services:
         constraints:
           - node.labels.DEPLOY_API == yes
     networks:
-      - swarm_{{org | lower}}_{{env | lower}}
+      - {{swarm_networks[0]}}
 networks:
-  swarm_{{org | lower}}_{{env | lower}}:
+  {{swarm_networks[0]}}:
     external: true
