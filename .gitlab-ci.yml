@@ -3,7 +3,7 @@ image: hub.nexdev.net/base/docker-engine/docker:19.03.14
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
-      when: on_success
+      when: always
     - when: never
 
 stages:
