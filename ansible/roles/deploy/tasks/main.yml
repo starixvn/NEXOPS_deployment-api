@@ -3,11 +3,13 @@
   file:
     path: "{{gluster_path}}/stacks/{{env}}{{version}}"
     state: directory
+  become: yes
 
 - name: Copy docker-compose file
   template:
     src: "templates/docker-compose.yml.j2"
     dest: "{{gluster_path}}/stacks/{{env}}{{version}}/deployment-api-stack.yml"
+  become: yes
 
 - name: Build up and run container
   shell: |
