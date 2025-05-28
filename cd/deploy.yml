@@ -11,6 +11,9 @@ variables:
       mkdir /root/.kube
       cp ./cd/configs/kubeconfig.${CI_ENVIRONMENT_NAME} /root/.kube/config
       chmod 400 /root/.kube/config
+    - |
+      # Create namespace if it doesn't exist
+      kubectl get namespace ${K8S_NAMESPACE} || kubectl create namespace ${K8S_NAMESPACE}
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
 
 .deploy_base:
