@@ -190,3 +190,18 @@ post_build_k8s_scsit:
     - .build_base
     - .post_build
     - .env_k8s_scsit
+
+build_k8s_scklprod:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_scklprod
+
+post_build_k8s_scklprod:
+  needs: ['build_k8s_scklprod']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k8s_scklprod

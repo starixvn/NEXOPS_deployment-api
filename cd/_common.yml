@@ -62,3 +62,7 @@ stages:
 .env_k8s_scsit:
   environment:
     name: "SCSIT"
+
+.env_k8s_scklprod:
+  environment:
+    name: "SCKLPROD"
