@@ -88,7 +88,7 @@ deploy_eks_uat:
     AWS_SESSION_TOKEN: FwoGZXIvYXdzECoaDChPQcvX1tfjWt8IDCKFAXDUwGNTzJTGCYRvaWDvzyrjVt8JgBBEkBmI7bNjCUpcyz9i606/76TUlLSqFrcfkzCZkq/n1gy2RxoWGGU0Q79sYCSSEzucPQATO5kqeo9hQdurbg69nFum0IHfECtYKW9EoRDc6AMnvHnhkt8i6FiNVWkmiv6DrbFx6rM1/SHzhiIwU20o1JzkwgYyKHvipGycaT+tw6RbcUWyUytHGZvrQSzmPD/rGvjlcOc/uUzjDfVQ3YU=
     AWS_DEFAULT_REGION: ap-southeast-1
     KUBERNETES_CLUSTER: nx-pentagon-t1uat-v1
-    REGISTRY_URL: lumhub.sportsfun.app/aws
+    REGISTRY_URL: lumhub.sc-t1prod.gamora.prod/aws
   needs: ["post_build_eks_uat"]
 
 deploy_eks_prod:
