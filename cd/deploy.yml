@@ -33,6 +33,7 @@ variables:
     - apk add py-pip --update && pip install awscli
     - aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${KUBERNETES_CLUSTER} && cat /root/.kube/config
     - helm registry login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $REGISTRY_URL
+    - kubectl get namespace $K8S_NAMESPACE || kubectl create namespace $K8S_NAMESPACE
 
 deploy_eks_local:
   extends:
@@ -82,11 +83,11 @@ deploy_eks_uat:
     - .deploy_eks_base
     - .env_eks_uat
   variables:
-    AWS_ACCESS_KEY_ID: ASIAQG7QGZI44P5LGRIY
-    AWS_SECRET_ACCESS_KEY: Mr9fF1c9lbkbdSDRNXSIPaS3DIbYECTHCNgNfb06
-    AWS_SESSION_TOKEN: FwoGZXIvYXdzENv//////////wEaDFtTadqPJutf5g7+VCKGAfOTLWBaBfAO02/Et58p8QmgE9zGQYScbV3PKoXRQgalB9zNE6ETklNGh3+SnjDtcn1L2PNMQ76aaQ5+RRABQXyTFjJKfV5S7wk92j06MOpEPaWLbiSq6DUfyspfmKfr8cXxDA+S3lkich9YsmkYjBxpbc3pNQ9JgEBlJqyaAtg4JUU7hOCDKO2w9aoGMigt3ir6+R1ddJOdUqF8325vH8UPBsBWILHqLYkE1Qlyl6AO6KiDnOdI
-    AWS_DEFAULT_REGION: ap-northeast-1
-    KUBERNETES_CLUSTER: lumi-uat-eks
+    AWS_ACCESS_KEY_ID: ASIAQG7QGZI46C55QUYV
+    AWS_SECRET_ACCESS_KEY: 19uekP6n2FfUdqB4z144i6/+m8OeWMMaaswo1BhT
+    AWS_SESSION_TOKEN: FwoGZXIvYXdzECgaDNidK1EfA+zZK/yrnCKFAU3lSF/M1VDrpmBNilVGNITl+PJ0B2/FrZdwYg7HQVbI9C+9lEp2tmYEt5SvbHtauRC5ozHy0ffKeQ9cwWLspu+Lf2eG3xZmPsC7ePClZiPYnmpCs3I5JmZF2dY0qSBYL6HeR9Iu5Lv5UVWVIxxeN/c86sIs5qod0PKEzSi4ckCSddmJ3P8o8urjwgYyKBfiL7XwS9enVzUBjxc1EQl9QjjxFwWhscwx04WHmL7e3/Lmr7dpMSY=
+    AWS_DEFAULT_REGION: ap-southeast-1
+    KUBERNETES_CLUSTER: nx-pentagon-t1uat-v1
     REGISTRY_URL: lumhub.sportsfun.app/aws
   needs: ["post_build_eks_uat"]
 

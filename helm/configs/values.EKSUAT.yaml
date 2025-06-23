@@ -13,7 +13,7 @@ k8sdeployments:
   ingress:
     enabled: true
     hosts:
-      - host: deployapi-eks.sgamesuat.com
+      - host: sc-deployapi-t1uat.sportsfun.app
         paths:
           - path: /
             pathType: Prefix
