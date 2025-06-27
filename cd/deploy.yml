@@ -1,6 +1,6 @@
 variables:
   APP_NAME: "deployapi"
-  K8S_NAMESPACE: nexops
+  K8S_NAMESPACE: nexpe
   REGISTRY_URL: hub.lumigame.com
   CHART_BASE_URL: "oci://${REGISTRY_URL}/charts"
   REGISTRY_PULL_IMAGE: "https://${REGISTRY_URL}"

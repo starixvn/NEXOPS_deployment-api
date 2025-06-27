@@ -1,6 +1,6 @@
 variables:
   PROJECT_ROOT_PATH: .
-  DOCKER_IMAGE_PATH: nexops/deployment-api
+  DOCKER_IMAGE_PATH: nexpe/deployment-api
   DOCKER_FILE_PATH: ./
   DOCKER_FILE_NAME: Dockerfile
   CONFIG_FILE_PATH: ./src
