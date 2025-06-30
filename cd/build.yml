@@ -205,3 +205,18 @@ post_build_k8s_scklprod:
     - .build_base
     - .post_build
     - .env_k8s_scklprod
+
+build_k8s_toolklprod:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_toolklprod
+
+post_build_k8s_toolklprod:
+  needs: ['build_k8s_toolklprod']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k8s_toolklprod

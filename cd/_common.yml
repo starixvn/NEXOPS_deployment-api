@@ -66,3 +66,7 @@ stages:
 .env_k8s_scklprod:
   environment:
     name: "SCKLPROD"
+
+.env_k8s_toolklprod:
+  environment:
+    name: "TOOLKLPROD"
