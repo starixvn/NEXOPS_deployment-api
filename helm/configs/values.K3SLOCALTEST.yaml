@@ -26,4 +26,5 @@ k8sdeployments:
     #haproxy: "yes"
   service:
   # kind of types: ClusterIP, NodePort, LoadBalancer
-    type: ClusterIP 
+    type: NodePort
+    nodePort: 30222
