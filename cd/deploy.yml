@@ -168,3 +168,12 @@ deploy_k8s_toolklprod:
     REGISTRY_URL: hub.nexdev.net
     REGISTRY_PULL_IMAGE: https://nexhub.ops-klprod.gamora.prod/kbt
   needs: ["post_build_k8s_toolklprod"]
+
+deploy_k3s_localtest:
+  extends:
+    - .deploy_base
+    - .env_k3s_localtest
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_URL: hub.nexdev.net
+  needs: ["post_build_k3s_localtest"]

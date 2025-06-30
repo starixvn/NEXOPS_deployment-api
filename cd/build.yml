@@ -220,3 +220,18 @@ post_build_k8s_toolklprod:
     - .build_base
     - .post_build
     - .env_k8s_toolklprod
+
+build_k3s_localtest:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k3s_localtest
+
+post_build_k3s_localtest:
+  needs: ['build_k3s_localtest']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k3s_localtest

@@ -70,3 +70,7 @@ stages:
 .env_k8s_toolklprod:
   environment:
     name: "TOOLKLPROD"
+
+.env_k3s_localtest:
+  environment:
+    name: "K3SLOCALTEST"
