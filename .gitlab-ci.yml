@@ -160,6 +160,13 @@ build:klprod:
     name: KLPROD
   when: manual
 
+build:kluat:
+  extends: 
+    - .build:default:image
+  environment:
+    name: KLUAT
+  when: manual
+
 build:awsdr:
   extends: 
     - .build:default:image
