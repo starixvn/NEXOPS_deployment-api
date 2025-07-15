@@ -235,3 +235,18 @@ post_build_k3s_localtest:
     - .build_base
     - .post_build
     - .env_k3s_localtest
+
+build_k8s_sckluat:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_sckluat
+
+post_build_k8s_sckluat:
+  needs: ['build_k8s_sckluat']
+  extends:
+    - .build_base
+    - .post_build
+    - .env_k8s_sckluat

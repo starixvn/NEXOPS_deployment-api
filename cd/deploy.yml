@@ -177,3 +177,12 @@ deploy_k3s_localtest:
   variables:
     REGISTRY_URL: hub.nexdev.net
   needs: ["post_build_k3s_localtest"]
+
+deploy_k8s_sckluat:
+  extends:
+    - .deploy_base
+    - .env_k8s_sckluat
+    - .deploy_k8s_before_script
+  variables:
+    REGISTRY_PULL_IMAGE: https://lumhub.ops-klprod.gamora.prod/kbt
+  needs: ["post_build_k8s_sckluat"]
