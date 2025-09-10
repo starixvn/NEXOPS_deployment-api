@@ -1,6 +1,6 @@
 include:
   - project: 'ci/core-cicd'
-    ref: main
+    ref: build_only
     file: 'cd/build_docker/linux/_definition.yml'
   - cd/_common.yml
   - cd/build.yml

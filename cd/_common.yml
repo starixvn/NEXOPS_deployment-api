@@ -18,3 +18,7 @@ stages:
 .env_k8s_twkl:
   environment:
     name: "TWKL"
+
+.env_k8s_twsit:
+  environment:
+    name: "TWSIT"

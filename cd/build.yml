@@ -13,7 +13,7 @@ variables:
     - docker
   before_script:
     - export DEPLOY_ENV=$CI_ENVIRONMENT_NAME;
-    - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
+    - export CI_REGISTRY_IMAGE=$DOCKER_REG_LOCAL_URL/$DOCKER_IMAGE_PATH
     - export CI_REGISTRY_IMAGE_LUMINET=$DOCKER_REG_LUMINET_URL/$DOCKER_IMAGE_PATH
     - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
     - echo $CI_REGISTRY_IMAGE
@@ -21,12 +21,12 @@ variables:
     - export CONFIG_FILE=$CONFIG_FILE_NAME.${DEPLOY_ENV}.$CONFIG_FILE_EXTENSION;
     - export CONFIG_DEST_FILE=$CONFIG_FILE_NAME.$CONFIG_FILE_EXTENSION;
     - cp $CONFIG_FILE_PATH/configs/$CONFIG_FILE $CONFIG_FILE_PATH/$CONFIG_DEST_FILE
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
 
 .post_build:
   stage: post-build
   script:   
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_LUMINET_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LUMINET_URL
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
       && docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest $CI_REGISTRY_IMAGE_LUMINET:$DEPLOY_ENV-latest
       && docker push $CI_REGISTRY_IMAGE_LUMINET:$DEPLOY_ENV-latest
@@ -46,3 +46,11 @@ build_k8s_twkl:
     - .build_base
     - .build:default:image
     - .env_k8s_twkl
+
+build_k8s_twsit:
+  when: manual
+  allow_failure: false
+  extends:
+    - .build_base
+    - .build:default:image
+    - .env_k8s_twsit
