@@ -29,8 +29,8 @@ ENV HTTPS_PROXY http://10.148.78.100:8801
 ENV https_proxy http://10.148.78.100:8801
 ENV HTTP_PROXY http://10.148.78.100:8801
 ENV http_proxy http://10.148.78.100:8801
-ENV NO_PROXY "172.16.0.1,172.16.0.10,.gamora.prod,localhost,10.148.200.63,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-ENV no_proxy "172.16.0.1,172.16.0.10,.gamora.prod,localhost,10.148.200.63,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+ENV NO_PROXY ".nebula.sit,172.16.0.1,172.16.0.10,.gamora.prod,localhost,10.148.200.63,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+ENV no_proxy ".nebula.sit,172.16.0.1,172.16.0.10,.gamora.prod,localhost,10.148.200.63,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 
 COPY ./src/ .
 HEALTHCHECK --interval=10s CMD node --es-module-specifier-resolution=node healthcheck.js
